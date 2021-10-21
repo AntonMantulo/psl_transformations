@@ -2,7 +2,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dbt_psl'
+name: 'psl_transformations'
 version: '1.0.0'
 config-version: 2
 
@@ -33,5 +33,5 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  dbt_psl:
+  psl_transformations:
       +materialized: table
