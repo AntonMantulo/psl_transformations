@@ -155,5 +155,5 @@ WHERE postingcompleted is not null
 
 {% if is_incremental() %}
         -- recalculate yesterday + today
-        where DATE(postingcompleted) in ({{ partitions_to_replace | join(',') }})
+        AND DATE(postingcompleted) in ({{ partitions_to_replace | join(',') }})
     {% endif %}
