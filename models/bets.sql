@@ -60,7 +60,7 @@ WITH gamefeed AS
   gamename,
   updated,
   ROW_NUMBER () OVER (PARTITION BY gameid ORDER BY updated DESC) AS rn
-FROM psl.gamefeed
+FROM `stitch-test-296708.psl.gamefeed` 
 ORDER BY 1
 )
 SELECT *
@@ -73,7 +73,7 @@ gamingtrans AS(
 WITH gamingtrans AS
 (SELECT *,
   ROW_NUMBER () OVER (PARTITION BY transid) AS rn
-FROM psl.gamingtrans
+FROM `stitch-test-296708.psl.gamingtrans` 
 )
 SELECT *
 FROM gamingtrans
@@ -85,7 +85,7 @@ gamingtrans2 AS (
 WITH gamingtrans AS
 (SELECT *,
   ROW_NUMBER () OVER (PARTITION BY transid) AS rn
-FROM psl.gamingtrans
+FROM `stitch-test-296708.psl.gamingtrans` 
 )
 SELECT matchingpostingid, MAX(postingcompleted) as postingcompleted
 FROM gamingtrans
@@ -140,7 +140,7 @@ SELECT
   posting.currency,
   posting.eurexchangerate,
   gamingtrans.sessionid
-FROM psl.posting as posting
+FROM `stitch-test-296708.psl.posting` as posting
 LEFT JOIN gamingtrans
 ON posting.transid = gamingtrans.transid
 LEFT JOIN gamefeed
@@ -155,5 +155,5 @@ WHERE postingcompleted is not null
 
 {% if is_incremental() %}
         -- recalculate yesterday + today
-        and postingcompleted in ({{ partitions_to_replace | join(',') }})
+        and DATE(postingcompleted) in ({{ partitions_to_replace | join(',') }})
     {% endif %}
