@@ -16,7 +16,7 @@
     partitions = partitions_to_replace
 )}}
 
-
+WITH master AS (
 WITH master AS (
 WITH master1 AS (
 WITH d AS (
@@ -152,8 +152,12 @@ WHERE posting.paymenttype = 'Debit' and (posting.note is null or posting.note = 
 SELECT *
 FROM master 
 WHERE postingcompleted is not null
+)
+
+SELECT *
+FROM master
 
 {% if is_incremental() %}
         -- recalculate yesterday + today
-        AND DATE(postingcompleted) in ({{ partitions_to_replace | join(',') }})
+        WHERE DATE(postingcompleted) in ({{ partitions_to_replace | join(',') }})
     {% endif %}
