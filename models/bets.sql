@@ -159,5 +159,5 @@ FROM master
 
 {% if is_incremental() %}
         -- recalculate yesterday + today
-        WHERE DATE(postingcompleted) in ({{ partitions_to_replace | join(',') }})
+        WHERE postingcompleted >= (SELECT CAST(CURRENT_DATE() -2 AS TIMESTAMP))
     {% endif %}
