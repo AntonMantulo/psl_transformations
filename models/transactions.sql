@@ -1,6 +1,6 @@
 {% set partitions_to_replace = [
-  'current_date',
-  'date_sub(current_date, interval 1 day)'
+  'timestamp(current_date)',
+  'timestamp(date_sub(current_date, interval 1 day))'
 ] %}
 
 
@@ -43,5 +43,5 @@ FROM master
 
 {% if is_incremental() %}
         -- recalculate yesterday + today
-        where DATE(transactioncompleted) in ({{ partitions_to_replace | join(',') }})
+        where DATE(transactioncompleted) >= CURRENT_DATE() -1
     {% endif %}

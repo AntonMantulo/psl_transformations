@@ -1,6 +1,6 @@
 {% set partitions_to_replace = [
-  'current_date',
-  'date_sub(current_date, interval 1 day)'
+  'timestamp(current_date)',
+  'timestamp(date_sub(current_date, interval 1 day))'
 ] %}
 
 
@@ -155,5 +155,5 @@ WHERE postingcompleted is not null
 
 {% if is_incremental() %}
         -- recalculate yesterday + today
-        and DATE(postingcompleted) in ({{ partitions_to_replace | join(',') }})
+        and DATE(postingcompleted) >= CURRENT_DATE() -1
     {% endif %}
