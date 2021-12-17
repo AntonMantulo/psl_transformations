@@ -1,6 +1,6 @@
 {% set partitions_to_replace = [
-  'timestamp(current_date)',
-  'timestamp(date_sub(current_date, interval 1 day))'
+  'current_date',
+  'date_sub(current_date, interval 1 day)'
 ] %}
 
 
@@ -55,5 +55,5 @@ FROM master
 
 {% if is_incremental() %}
         -- recalculate yesterday + today
-        where DATE(date) >= CURRENT_DATE() -1
+        where date >= CURRENT_DATE() -1
     {% endif %}
