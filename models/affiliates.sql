@@ -1,6 +1,6 @@
 {% set partitions_to_replace = [
-  'timestamp(current_date)',
-  'timestamp(date_sub(current_date, interval 1 day))'
+  'current_date',
+  'date_sub(current_date, interval 1 day)'
 ] %}
 
 
